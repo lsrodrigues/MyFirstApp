@@ -4,21 +4,64 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    tools:showIn="@layout/activity_main">
+    android:orientation="vertical">
 
-    <EditText android:id="@+id/edit_message"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/edit_message"/>
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_send"
-        android:onClick="sendMessage"/>
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Contact Creator"
+        android:id="@+id/lblCreator"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal" />
 
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/txtName"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:hint="Contact Name"
+        android:phoneNumber="false"
+        android:password="false" />
 
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/txtPhone"
+        android:layout_marginTop="15dp"
+        android:hint="Phone Number" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/txtEmail"
+        android:layout_marginTop="15dp"
+        android:hint="Email" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/txtAddress"
+        android:layout_marginTop="15dp"
+        android:hint="Address"
+        android:layout_gravity="center_horizontal"
+        android:inputType="textPostalAddress" />
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Add contact"
+        android:id="@+id/btnAdd"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp" />
 
 
 </LinearLayout>
