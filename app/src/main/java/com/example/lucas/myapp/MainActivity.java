@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                addBtn.setEnabled(!charSequence.equals(""));
+                addBtn.setEnabled(!nameTxt.getText().toString().trim().isEmpty());
             }
 
             @Override
