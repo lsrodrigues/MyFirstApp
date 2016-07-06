@@ -1,19 +1,27 @@
 package com.example.lucas.myapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     EditText nameTxt, phoneTxt, emailTxt, addressTxt;
+    List<Contact> contacts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,5 +73,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private class ContactListAdapter extends ArrayAdapter<Contact>{
+        public ContactListAdapter() {
+            super(MainActivity.this, R.layout.listview_item, contacts);
+        }
+    }
 
+    /*@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }*/
 }
