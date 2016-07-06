@@ -14,19 +14,19 @@ public class Contact {
         _address = address;
     }
 
-    public String get_name() {
+    public String getName() {
         return _name;
     }
 
-    public String get_phone() {
+    public String getPhone() {
         return _phone;
     }
 
-    public String get_email() {
+    public String getEmail() {
         return _email;
     }
 
-    public String get_address() {
+    public String getAddress() {
         return _address;
     }
 }
