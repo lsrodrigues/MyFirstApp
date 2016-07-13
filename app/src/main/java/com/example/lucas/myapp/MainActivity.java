@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     EditText nameTxt, phoneTxt, emailTxt, addressTxt;
+    ImageView contactImageImgView;
     List<Contact> contacts = new ArrayList<>();
     ListView contactListView;
     /**
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         emailTxt = (EditText) findViewById(R.id.txtEmail);
         addressTxt = (EditText) findViewById(R.id.txtAddress);
         contactListView = (ListView) findViewById(R.id.listView);
+
+
         TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
 
         tabHost.setup();
