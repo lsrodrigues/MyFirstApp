@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView contactImageImgView;
     List<Contact> contacts = new ArrayList<>();
     ListView contactListView;
+    Uri imageURI = null;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         emailTxt = (EditText) findViewById(R.id.txtEmail);
         addressTxt = (EditText) findViewById(R.id.txtAddress);
         contactListView = (ListView) findViewById(R.id.listView);
-
+        contactImageImgView  = (ImageView) findViewById(R.id.imgViewContactImage);
 
         TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
 
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addContact(nameTxt.getText().toString(), phoneTxt.getText().toString(), emailTxt.getText().toString(), addressTxt.getText().toString());
+                addContact(nameTxt.getText().toString(), phoneTxt.getText().toString(), emailTxt.getText().toString(), addressTxt.getText().toString(), imageURI);
                 populateList();
                 Toast.makeText(getApplicationContext(), nameTxt.getText().toString() + " has been added to your Contacts", Toast.LENGTH_SHORT).show();
             }
@@ -92,9 +93,29 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+            contactImageImgView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent, "Select Contact Image"), 1);
+                }
+            });
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    public void onActivityResult(int reqCode, int resCode, Intent data){
+        if(resCode == RESULT_OK){
+            if (reqCode == 1){
+                imageURI = data.getData();
+                contactImageImgView.setImageURI(data.getData());
+            }
+        }
     }
 
     private void populateList(){
@@ -102,8 +123,8 @@ public class MainActivity extends AppCompatActivity {
         contactListView.setAdapter(adapter);
     }
 
-    private void addContact(String name, String phone, String email, String address){
-        contacts.add(new Contact(name, phone, email, address));
+    private void addContact(String name, String phone, String email, String address, Uri image){
+        contacts.add(new Contact(name, phone, email, address, image));
     }
 
 
@@ -170,6 +191,9 @@ public class MainActivity extends AppCompatActivity {
 
             TextView address = (TextView) convertView.findViewById(R.id.cAddress);
             address.setText(currentContact.getAddress());
+
+            ImageView ivContactImage = (ImageView) convertView.findViewById(R.id.ivContactImage);
+            ivContactImage.setImageURI(currentContact.getImageURI());
 
             return convertView;
         }
