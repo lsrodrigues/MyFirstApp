@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addContact(String name, String phone, String email, String address, Uri image){
-        contacts.add(new Contact(name, phone, email, address, image));
+        contacts.add(new Contact(0, name, phone, email, address, image));
     }
 
 
