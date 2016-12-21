@@ -27,7 +27,7 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:id="@+id/tabCreator"
+                    android:id="@+id/Criar Contato"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:orientation="vertical">
@@ -44,7 +44,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Contact Creator"
+                        android:text="Criar Contato"
                         android:id="@+id/lblCreator"
                         android:layout_marginTop="10dp"
                         android:layout_gravity="center_horizontal" />
@@ -92,7 +92,7 @@
                     <Button
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:text="Add contact"
+                        android:text="adicionar contato"
                         android:id="@+id/btnAdd"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="10dp"
@@ -100,7 +100,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/tabContactList"
+                    android:id="@+id/Lista de Contatos"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:orientation="vertical">
