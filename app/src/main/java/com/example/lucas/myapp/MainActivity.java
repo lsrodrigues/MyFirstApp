@@ -33,7 +33,10 @@ public class MainActivity extends AppCompatActivity {
     ImageView contactImageImgView;
     List<Contact> contacts = new ArrayList<>();
     ListView contactListView;
-    Uri imageURI = null;
+    Uri imageURI = Uri.parse("android.resource://org.intracode.contactmanager/drawable/no_user_logo.png");
+    DatabaseHandler dbHandler;
+
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -50,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
         emailTxt = (EditText) findViewById(R.id.txtEmail);
         addressTxt = (EditText) findViewById(R.id.txtAddress);
         contactListView = (ListView) findViewById(R.id.listView);
-        contactImageImgView  = (ImageView) findViewById(R.id.imgViewContactImage);
+        contactImageImgView = (ImageView) findViewById(R.id.imgViewContactImage);
+        dbHandler = new DatabaseHandler(getApplicationContext());
 
         TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
 
@@ -71,7 +75,10 @@ public class MainActivity extends AppCompatActivity {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addContact(nameTxt.getText().toString(), phoneTxt.getText().toString(), emailTxt.getText().toString(), addressTxt.getText().toString(), imageURI);
+                Contact contact = new Contact(dbHandler.getContactsCount(), String.valueOf(nameTxt.getText()), String.valueOf(phoneTxt.getText()), String.valueOf(emailTxt.getText()), String.valueOf(addressTxt.getText()), imageURI);
+                //addContact(nameTxt.getText().toString(), phoneTxt.getText().toString(), emailTxt.getText().toString(), addressTxt.getText().toString(), imageURI);
+                dbHandler.createContact(contact);
+                contacts.add(contact);
                 populateList();
                 Toast.makeText(getApplicationContext(), nameTxt.getText().toString() + " has been added to your Contacts", Toast.LENGTH_SHORT).show();
             }
@@ -94,39 +101,49 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-            contactImageImgView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.setType("image/*");
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    startActivityForResult(Intent.createChooser(intent, "Select Contact Image"), 1);
-                }
-            });
+        contactImageImgView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Contact Image"), 1);
+            }
+        });
+
+        List<Contact> addableContacts = dbHandler.getAllContacts();
+        int contactCount = dbHandler.getContactsCount();
+
+        for (int i = 0; i < contactCount; i++) {
+            contacts.add(addableContacts.get(i));
+        }
+
+        if (!addableContacts.isEmpty()) {
+            populateList();
+        }
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    public void onActivityResult(int reqCode, int resCode, Intent data){
-        if(resCode == RESULT_OK){
-            if (reqCode == 1){
+    public void onActivityResult(int reqCode, int resCode, Intent data) {
+        if (resCode == RESULT_OK) {
+            if (reqCode == 1) {
                 imageURI = data.getData();
                 contactImageImgView.setImageURI(data.getData());
             }
         }
     }
 
-    private void populateList(){
+    private void populateList() {
         ArrayAdapter<Contact> adapter = new ContactListAdapter();
         contactListView.setAdapter(adapter);
     }
 
-    private void addContact(String name, String phone, String email, String address, Uri image){
+    private void addContact(String name, String phone, String email, String address, Uri image) {
         contacts.add(new Contact(0, name, phone, email, address, image));
     }
-
 
 
     @Override
@@ -178,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null)
                 convertView = getLayoutInflater().inflate(R.layout.listview_item, parent, false);
-                Contact currentContact = contacts.get(position);
+            Contact currentContact = contacts.get(position);
 
             TextView name = (TextView) convertView.findViewById(R.id.contactName);
             name.setText(currentContact.getName());

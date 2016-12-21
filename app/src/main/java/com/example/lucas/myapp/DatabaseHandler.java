@@ -66,6 +66,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
 
         Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), Uri.parse(cursor.getString(5)));
+        db.close();
+        cursor.close();
         return contact;
     }
 
@@ -78,10 +80,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public int getContactsCount() {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CONTACTS, null);
+        int count = cursor.getCount();
         cursor.close();
         db.close();
 
-        return cursor.getCount();
+        return count;
     }
 
     public int updateContact(Contact contact) {
