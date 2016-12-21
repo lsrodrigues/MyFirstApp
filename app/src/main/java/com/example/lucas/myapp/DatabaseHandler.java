@@ -7,8 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Created by lrodrigues on 21/12/2016.
+ * Created by lsrodrigues on 21/12/2016.
  */
 
 public class DatabaseHandler extends SQLiteOpenHelper {
@@ -64,6 +67,50 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), Uri.parse(cursor.getString(5)));
         return contact;
+    }
+
+    public void deleteContact(Contact contact) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(TABLE_CONTACTS, KEY_ID + "=?", new String[]{String.valueOf(contact.getId())});
+        db.close();
+    }
+
+    public int getContactsCount() {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CONTACTS, null);
+        cursor.close();
+        db.close();
+
+        return cursor.getCount();
+    }
+
+    public int updateContact(Contact contact) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_NAME, contact.getName());
+        values.put(KEY_PHONE, contact.getPhone());
+        values.put(KEY_EMAIL, contact.getEmail());
+        values.put(KEY_ADDRESS, contact.getAddress());
+        values.put(KEY_IMAGEURI, contact.getImageURI().toString());
+
+        return db.update(TABLE_CONTACTS, values, KEY_ID + "=?", new String[]{String.valueOf(contact.getId())});
+    }
+
+    public List<Contact> getAllContacts() {
+        List<Contact> contacts = new ArrayList<Contact>();
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CONTACTS, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), Uri.parse(cursor.getString(5)));
+                contacts.add(contact);
+            } while (cursor.moveToNext());
+        }
+
+        return contacts;
     }
 
 }
