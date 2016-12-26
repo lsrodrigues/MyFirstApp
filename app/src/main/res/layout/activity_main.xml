@@ -23,7 +23,7 @@
 
     <include layout="@layout/content_main" />
 
-    <include layout="@layout/listview_item" />
+    <!--<include layout="@layout/listview_item" />-->
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -37,6 +37,7 @@
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="56dp" />
 
 </android.support.design.widget.CoordinatorLayout>
