@@ -43,13 +43,31 @@ public class CreatorContactActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Contact contact = new Contact(dbHandler.getContactsCount(), String.valueOf(nameTxt.getText()), String.valueOf(phoneTxt.getText()), String.valueOf(emailTxt.getText()), String.valueOf(addressTxt.getText()), imageURI);
-                //addContact(nameTxt.getText().toString(), phoneTxt.getText().toString(), emailTxt.getText().toString(), addressTxt.getText().toString(), imageURI);
                 dbHandler.createContact(contact);
                 Toast.makeText(getApplicationContext(), nameTxt.getText().toString() + " has been added to your Contacts", Toast.LENGTH_SHORT).show();
                 Intent it = new Intent(CreatorContactActivity.this, MainActivity.class);
                 startActivity(it);
             }
         });
+
+        contactImageImgView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Contact Image"), 1);
+            }
+        });
+    }
+
+    public void onActivityResult(int reqCode, int resCode, Intent data) {
+        if (resCode == RESULT_OK) {
+            if (reqCode == 1) {
+                imageURI = data.getData();
+                contactImageImgView.setImageURI(data.getData());
+            }
+        }
     }
 
 }
